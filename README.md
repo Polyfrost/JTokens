@@ -4,9 +4,9 @@ This is a general purpose library to parse [JSON design token](https://tr.design
 
 ## Checklist
 
-- [ ] [Aliases / references](https://tr.designtokens.org/format/#aliases-references)
+- [X] [Aliases / references](https://tr.designtokens.org/format/#aliases-references)
 - [ ] [Types](https://tr.designtokens.org/format/#types)
-    - [ ] Color
+    - [X] Color
     - [ ] Dimension
     - [ ] Font Family (NOT FINALIZED IN STANDARD)
     - [ ] Font Weight

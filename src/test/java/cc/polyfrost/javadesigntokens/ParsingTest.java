@@ -12,13 +12,24 @@ public class ParsingTest {
 
     @Test
     public void testColor() {
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/polyui.tokens.json"), StandardCharsets.UTF_8))) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
             DesignToken designToken = new DesignToken(reader);
-            assert designToken.has("polyui.core.color.blue.500");
-            assert !designToken.has("polyui.core.color.blue.501");
-            assert designToken.isColor("polyui.core.color.blue.500");
-            assert !designToken.isColor("polyui.core.color.blue.501");
-            assert designToken.getColor("polyui.core.color.blue.500").equals(new Color(	31, 101, 214));
+            assert designToken.has("colors.white");
+            assert !designToken.has("colors.not-white");
+            assert designToken.isColor("colors.white");
+            assert !designToken.isColor("colors.not-white");
+            assert designToken.getColor("colors.white").equals(new Color(255, 255, 255));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testReference() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader);
+            assert designToken.get("colors.white").equals(designToken.get("button.button-color"));
+            assert designToken.get("button.button-color").equals(designToken.get("button.other-color"));
         } catch (IOException e) {
             e.printStackTrace();
         }

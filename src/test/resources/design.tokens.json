@@ -1,0 +1,18 @@
+{
+  "colors": {
+    "$type": "color",
+    "white": {
+      "$value": "#ffffff"
+    }
+  },
+  "button": {
+    "other-color": {
+      "$value": "{button.button-color}",
+      "$type": "color"
+    },
+    "button-color": {
+      "$value": "{colors.white}",
+      "$type": "color"
+    }
+  }
+}

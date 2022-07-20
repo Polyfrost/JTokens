@@ -9,10 +9,12 @@ import java.awt.*;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class DesignToken {
     private static final JsonParser PARSER = new JsonParser();
     private final HashMap<String, Object> values = new HashMap<>();
+    private ConcurrentHashMap<String, String> unresolvedReferences = new ConcurrentHashMap<>();
 
     /**
      * Parse a json object to a design token
@@ -21,6 +23,7 @@ public class DesignToken {
      */
     public DesignToken(JsonObject object) {
         parsePart(object, Type.UNKNOWN, "");
+        resolveReferences();
     }
 
     /**
@@ -60,8 +63,13 @@ public class DesignToken {
             }
         }
         if (object.has("$value")) {
-            values.put(path, getValue(object.get("$value"), type));
-            return;
+            JsonElement value = object.get("$value");
+            if (value.isJsonPrimitive() && value.getAsString().startsWith("{") && value.getAsString().endsWith("}")) {
+                String reference = value.getAsString();
+                unresolvedReferences.put(path, reference.substring(1, reference.length() - 1));
+            } else {
+                values.put(path, getValue(value, type));
+            }
         }
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
             String name = entry.getKey();
@@ -79,6 +87,22 @@ public class DesignToken {
             default:
                 return jsonElement;
         }
+    }
+
+    private void resolveReferences() {
+        for (String path : unresolvedReferences.keySet()) {
+            String reference = unresolvedReferences.get(path);
+            resolveReference(path, reference);
+        }
+        unresolvedReferences = null;
+    }
+
+    private void resolveReference(String path, String reference) {
+        if (unresolvedReferences.containsKey(reference)) {
+            resolveReference(reference, unresolvedReferences.get(reference));
+        }
+        if (!has(reference)) return;
+        values.put(path, get(reference));
     }
 
     private Color hexToRGB(String colorStr) {

@@ -14,5 +14,21 @@
       "$value": "{colors.white}",
       "$type": "color"
     }
+  },
+  "Primary font": {
+    "$value": "Comic Sans MS",
+    "$type": "fontFamily"
+  },
+  "Body font": {
+    "$value": ["Helvetica", "Arial"],
+    "$type": "fontFamily"
+  },
+  "font-weight-default": {
+    "$value": 350,
+    "$type": "fontWeight"
+  },
+  "font-weight-thick": {
+    "$value": "extra-bold",
+    "$type": "fontWeight"
   }
 }

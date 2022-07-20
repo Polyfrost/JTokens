@@ -1,5 +1,7 @@
 package cc.polyfrost.javadesigntokens;
 
+import cc.polyfrost.javadesigntokens.helpers.FontWeightHelper;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -84,6 +86,18 @@ public class DesignToken {
         switch (type) {
             case COLOR:
                 return hexToRGB(jsonElement.getAsString());
+            case FONT_FAMILY:
+                if (jsonElement.isJsonPrimitive()) return new String[]{jsonElement.getAsString()};
+                JsonArray array = jsonElement.getAsJsonArray();
+                String[] fonts = new String[array.size()];
+                for (int i = 0; i < array.size(); i++) fonts[i] = array.get(i).getAsString();
+                return fonts;
+            case FONT_WEIGHT:
+                try {
+                    return jsonElement.getAsInt();
+                } catch (Exception ignored) {
+                }
+                return FontWeightHelper.getFontWeightNumber(jsonElement.getAsString());
             default:
                 return jsonElement;
         }
@@ -134,19 +148,29 @@ public class DesignToken {
     }
 
     /**
-     * @param reference The reference to the design token
-     * @return If the design token is a color
-     */
-    public boolean isColor(String reference) {
-        return get(reference) instanceof Color;
-    }
-
-    /**
      * @param reference The reference to the color token
      * @return The color
      * @throws ClassCastException If the object is not a color
      */
     public Color getColor(String reference) {
         return (Color) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the font family token
+     * @return The font family
+     * @throws ClassCastException If the object is not a font family
+     */
+    public String[] getFontFamily(String reference) {
+        return (String[]) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the font weight
+     * @return The font weight
+     * @throws ClassCastException If the object is not a font weight
+     */
+    public int getFontWeight(String reference) {
+        return (int) get(reference);
     }
 }

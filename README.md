@@ -8,8 +8,8 @@ This is a general purpose library to parse [JSON design token](https://tr.design
 - [ ] [Types](https://tr.designtokens.org/format/#types)
     - [X] Color
     - [ ] Dimension
-    - [ ] Font Family (NOT FINALIZED IN STANDARD)
-    - [ ] Font Weight
+    - [X] Font Family (NOT FINALIZED IN STANDARD)
+    - [X] Font Weight
     - [ ] Duration
     - [ ] Cubic Bezier
 - [ ] [Extensions](https://tr.designtokens.org/format/#extensions)

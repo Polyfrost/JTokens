@@ -24,10 +24,22 @@ public class FontWeightHelper {
         put("ultra-black", 950);
     }};
 
+    /**
+     * Get the weight number associated with a name
+     *
+     * @param name The name
+     * @return The weight number
+     */
     public static int getFontWeightNumber(String name) {
         return weights.get(name);
     }
 
+    /**
+     * Get a name associated with a weight number
+     *
+     * @param number The number
+     * @return The name
+     */
     public static String getFontWeightName(int number) {
         for (String name : weights.keySet()) {
             if (weights.get(name) == number) return name;

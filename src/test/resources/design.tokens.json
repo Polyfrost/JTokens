@@ -30,5 +30,13 @@
   "font-weight-thick": {
     "$value": "extra-bold",
     "$type": "fontWeight"
+  },
+  "rem": {
+    "$value": "0.25rem",
+    "$type": "dimension"
+  },
+  "px": {
+    "$value": "10px",
+    "$type": "dimension"
   }
 }

@@ -1,5 +1,6 @@
 package cc.polyfrost.javadesigntokens;
 
+import cc.polyfrost.javadesigntokens.helpers.DimensionHelper;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -51,6 +52,18 @@ public class ParsingTest {
             DesignToken designToken = new DesignToken(reader);
             assert designToken.getFontWeight("font-weight-default") == 350;
             assert designToken.getFontWeight("font-weight-thick") == 800;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDimension() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader);
+            System.out.println(DimensionHelper.remToPx(0.25f));
+            assert designToken.getDimension("rem") == DimensionHelper.remToPx(0.25f);
+            assert designToken.getDimension("px") == 10;
         } catch (IOException e) {
             e.printStackTrace();
         }

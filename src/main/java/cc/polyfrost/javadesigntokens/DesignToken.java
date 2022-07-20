@@ -1,5 +1,6 @@
 package cc.polyfrost.javadesigntokens;
 
+import cc.polyfrost.javadesigntokens.helpers.DimensionHelper;
 import cc.polyfrost.javadesigntokens.helpers.FontWeightHelper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -98,6 +99,12 @@ public class DesignToken {
                 } catch (Exception ignored) {
                 }
                 return FontWeightHelper.getFontWeightNumber(jsonElement.getAsString());
+            case DIMENSION:
+                String value = jsonElement.getAsString();
+                if (value.endsWith("rem")) {
+                    return DimensionHelper.remToPx(Float.parseFloat(value.replace("rem", "")));
+                }
+                return Float.parseFloat(value.replace("px", ""));
             default:
                 return jsonElement;
         }
@@ -172,5 +179,14 @@ public class DesignToken {
      */
     public int getFontWeight(String reference) {
         return (int) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the dimension
+     * @return The dimension in pixels
+     * @throws ClassCastException If the object is not a dimension
+     */
+    public float getDimension(String reference) {
+        return (float) get(reference);
     }
 }

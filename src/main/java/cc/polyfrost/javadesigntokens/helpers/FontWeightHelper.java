@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class FontWeightHelper {
     private static final HashMap<String, Integer> weights = new HashMap<String, Integer>() {{
-        put("thing", 100);
+        put("thin", 100);
         put("hairline", 100);
         put("extra-light", 200);
         put("ultra-light", 200);

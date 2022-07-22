@@ -38,5 +38,21 @@
   "px": {
     "$value": "10px",
     "$type": "dimension"
+  },
+  "Duration-100": {
+    "$value": "100ms",
+    "$type": "duration"
+  },
+  "Duration-200": {
+    "$value": "200ms",
+    "$type": "duration"
+  },
+  "Accelerate": {
+    "$value": [0.5, 0, 1, 1],
+    "$type": "cubicBezier"
+  },
+  "Decelerate": {
+    "$value": [0, 0, 0.5, 1],
+    "$type": "cubicBezier"
   }
 }

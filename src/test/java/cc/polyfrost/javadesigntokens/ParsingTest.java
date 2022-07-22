@@ -61,9 +61,31 @@ public class ParsingTest {
     public void testDimension() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
             DesignToken designToken = new DesignToken(reader);
-            System.out.println(DimensionHelper.remToPx(0.25f));
+            assert DimensionHelper.remToPx(0.25f) == 4;
             assert designToken.getDimension("rem") == DimensionHelper.remToPx(0.25f);
             assert designToken.getDimension("px") == 10;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void durationTest() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader);
+            assert designToken.getDuration("Duration-100") == 100;
+            assert designToken.getDuration("Duration-200") == 200;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void cubicBezierTest() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader);
+            assert Arrays.equals(designToken.getCubicBezier("Accelerate"), new float[]{0.5f, 0, 1, 1});
+            assert Arrays.equals(designToken.getCubicBezier("Decelerate"), new float[]{0, 0, 0.5f, 1});
         } catch (IOException e) {
             e.printStackTrace();
         }

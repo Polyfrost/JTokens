@@ -10,7 +10,8 @@ This is a general purpose library to parse [JSON design token](https://tr.design
     - [X] Dimension
     - [X] Font Family (NOT FINALIZED IN STANDARD)
     - [X] Font Weight
-    - [ ] Duration
+    - [X] Duration
     - [ ] Cubic Bezier
+- [ ] Allow loading of multiple files and references to the other file in the same design token instance
 - [ ] [Extensions](https://tr.designtokens.org/format/#extensions)
 - [ ] [Composite types](https://tr.designtokens.org/format/#composite-types) (NOT FINALIZED IN STANDARD)

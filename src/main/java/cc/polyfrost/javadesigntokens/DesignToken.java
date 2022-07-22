@@ -105,6 +105,14 @@ public class DesignToken {
                     return DimensionHelper.remToPx(Float.parseFloat(value.replace("rem", "")));
                 }
                 return Float.parseFloat(value.replace("px", ""));
+            case DURATION:
+                return Float.parseFloat(jsonElement.getAsString().replace("ms", ""));
+            case CUBIC_BEZIER:
+                JsonArray jsonArray = jsonElement.getAsJsonArray();
+                return new float[]{
+                        jsonArray.get(0).getAsFloat(), jsonArray.get(1).getAsFloat(),
+                        jsonArray.get(2).getAsFloat(), jsonArray.get(3).getAsFloat()
+                };
             default:
                 return jsonElement;
         }
@@ -188,5 +196,23 @@ public class DesignToken {
      */
     public float getDimension(String reference) {
         return (float) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the duration
+     * @return The duration in milliseconds
+     * @throws ClassCastException If the object is not a duration
+     */
+    public float getDuration(String reference) {
+        return (float) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the cubic bezier
+     * @return The cubic bezier
+     * @throws ClassCastException If the object is not a cubic bezier
+     */
+    public float[] getCubicBezier(String reference) {
+        return (float[]) get(reference);
     }
 }

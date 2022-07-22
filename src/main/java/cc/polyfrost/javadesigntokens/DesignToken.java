@@ -2,58 +2,61 @@ package cc.polyfrost.javadesigntokens;
 
 import cc.polyfrost.javadesigntokens.helpers.DimensionHelper;
 import cc.polyfrost.javadesigntokens.helpers.FontWeightHelper;
+import cc.polyfrost.javadesigntokens.helpers.JsonHelper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 import java.awt.*;
 import java.io.Reader;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DesignToken {
-    private static final JsonParser PARSER = new JsonParser();
     private final HashMap<String, Object> values = new HashMap<>();
     private ConcurrentHashMap<String, String> unresolvedReferences = new ConcurrentHashMap<>();
 
     /**
      * Parse a json object to a design token
      *
-     * @param object The json object
+     * @param objects The json objects, first object has the highest priority for duplicate tokens
      */
-    public DesignToken(JsonObject object) {
-        parsePart(object, Type.UNKNOWN, "");
+    public DesignToken(JsonObject... objects) {
+        List<JsonObject> objectList = Arrays.asList(objects);
+        Collections.reverse(objectList);
+        for (JsonObject object : objectList) {
+            parsePart(object, Type.UNKNOWN, "");
+        }
         resolveReferences();
     }
 
     /**
      * Parse a json string to a design token
      *
-     * @param json The json
+     * @param json The json, first object has the highest priority for duplicate tokens
      */
-    public DesignToken(String json) {
-        this(PARSER.parse(json).getAsJsonObject());
+    public DesignToken(String... json) {
+        this(JsonHelper.getJsonObjects(json));
     }
 
     /**
      * Parse a reader to a design token
      *
-     * @param reader The reader
+     * @param readers The readers, first object has the highest priority for duplicate tokens
      */
-    public DesignToken(Reader reader) {
-        this(PARSER.parse(reader).getAsJsonObject());
+    public DesignToken(Reader... readers) {
+        this(JsonHelper.getJsonObjects(readers));
     }
 
     /**
      * Parse a json reader to a design token
      *
-     * @param reader The json reader
+     * @param readers The json readers, first object has the highest priority for duplicate tokens
      */
-    public DesignToken(JsonReader reader) {
-        this(PARSER.parse(reader).getAsJsonObject());
+    public DesignToken(JsonReader... readers) {
+        this(JsonHelper.getJsonObjects(readers));
     }
 
     private void parsePart(JsonObject object, Type type, String path) {

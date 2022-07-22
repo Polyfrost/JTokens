@@ -54,5 +54,13 @@
   "Decelerate": {
     "$value": [0, 0, 0.5, 1],
     "$type": "cubicBezier"
+  },
+  "file2-file1": {
+    "$type": "color",
+    "$value": "{random-color}"
+  },
+  "priority": {
+    "$type": "duration",
+    "$value": "1ms"
   }
 }

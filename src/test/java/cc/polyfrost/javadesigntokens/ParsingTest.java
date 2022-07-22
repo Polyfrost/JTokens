@@ -90,4 +90,17 @@ public class ParsingTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void multipleFilesTest() {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8));
+             BufferedReader reader2 = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design2.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader, reader2);
+            assert designToken.getColor("colors.white").equals(designToken.getColor("file1-file2"));
+            assert designToken.getColor("random-color").equals(designToken.getColor("file2-file1"));
+            assert designToken.getDuration("priority") == 1;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

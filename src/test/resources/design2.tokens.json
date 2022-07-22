@@ -1,0 +1,14 @@
+{
+  "file1-file2": {
+    "$type": "color",
+    "$value": "{colors.white}"
+  },
+  "random-color": {
+    "$type": "color",
+    "$value": "#E55137"
+  },
+  "priority": {
+    "$type": "duration",
+    "$value": "2ms"
+  }
+}

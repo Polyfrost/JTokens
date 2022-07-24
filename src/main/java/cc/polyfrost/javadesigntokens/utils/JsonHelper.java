@@ -1,4 +1,4 @@
-package cc.polyfrost.javadesigntokens.helpers;
+package cc.polyfrost.javadesigntokens.utils;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

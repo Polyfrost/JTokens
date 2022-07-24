@@ -1,8 +1,14 @@
-package cc.polyfrost.javadesigntokens.helpers;
+package cc.polyfrost.javadesigntokens.parsers.type;
+
+import cc.polyfrost.javadesigntokens.parsers.Parser;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 import java.util.HashMap;
 
-public class FontWeightHelper {
+public class FontWeightParser extends Parser<Integer> {
+    public static final FontWeightParser INSTANCE = new FontWeightParser();
+
     private static final HashMap<String, Integer> weights = new HashMap<String, Integer>() {{
         put("thin", 100);
         put("hairline", 100);
@@ -30,7 +36,7 @@ public class FontWeightHelper {
      * @param name The name
      * @return The weight number
      */
-    public static int getFontWeightNumber(String name) {
+    public int getFontWeightNumber(String name) {
         return weights.get(name);
     }
 
@@ -40,10 +46,17 @@ public class FontWeightHelper {
      * @param number The number
      * @return The name
      */
-    public static String getFontWeightName(int number) {
+    public String getFontWeightName(int number) {
         for (String name : weights.keySet()) {
             if (weights.get(name) == number) return name;
         }
         return null;
+    }
+
+    @Override
+    protected Integer parseValue(JsonElement element, HashMap<String, Object> values) {
+        JsonPrimitive primitive = element.getAsJsonPrimitive();
+        if (primitive.isNumber()) return primitive.getAsInt();
+        return getFontWeightNumber(primitive.getAsString());
     }
 }

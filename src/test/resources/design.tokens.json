@@ -20,7 +20,10 @@
     "$type": "fontFamily"
   },
   "Body font": {
-    "$value": ["Helvetica", "Arial"],
+    "$value": [
+      "Helvetica",
+      "Arial"
+    ],
     "$type": "fontFamily"
   },
   "font-weight-default": {
@@ -48,19 +51,70 @@
     "$type": "duration"
   },
   "Accelerate": {
-    "$value": [0.5, 0, 1, 1],
+    "$value": [
+      0.5,
+      0,
+      1,
+      1
+    ],
     "$type": "cubicBezier"
   },
   "Decelerate": {
-    "$value": [0, 0, 0.5, 1],
+    "$value": [
+      0,
+      0,
+      0.5,
+      1
+    ],
     "$type": "cubicBezier"
   },
-  "file2-file1": {
-    "$type": "color",
-    "$value": "{random-color}"
+  "string": {
+    "$type": "string",
+    "$value": "abc"
   },
-  "priority": {
-    "$type": "duration",
-    "$value": "1ms"
+  "number": {
+    "$type": "number",
+    "$value": 1.5
+  },
+  "boolean": {
+    "$type": "boolean",
+    "$value": true
+  },
+  "object": {
+    "$type": "object",
+    "$value": {
+      "abc": true
+    }
+  },
+  "array": {
+    "$type": "array",
+    "$value": [
+      "abc"
+    ]
+  },
+  "font": {
+    "$type": "typography",
+    "main": {
+      "$value": {
+        "fontFamily": "Roboto",
+        "fontSize": "42px",
+        "fontWeight": 700,
+        "letterSpacing": "0.1em",
+        "lineHeight": "1.2"
+      }
+    },
+    "main-clone" : {
+      "$value" : "{font.main}"
+    },
+    "secondary": {
+      "$type": "typography",
+      "$value": {
+        "fontFamily": "{Primary font}",
+        "fontSize": "{rem}",
+        "fontWeight": "{font-weight-thick}",
+        "letterSpacing": "{px}",
+        "lineHeight": "1.5"
+      }
+    }
   }
 }

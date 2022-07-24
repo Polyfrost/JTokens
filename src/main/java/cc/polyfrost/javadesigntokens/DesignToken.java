@@ -1,8 +1,8 @@
 package cc.polyfrost.javadesigntokens;
 
-import cc.polyfrost.javadesigntokens.helpers.DimensionHelper;
-import cc.polyfrost.javadesigntokens.helpers.FontWeightHelper;
-import cc.polyfrost.javadesigntokens.helpers.JsonHelper;
+import cc.polyfrost.javadesigntokens.exceptions.UnresolvedReferenceException;
+import cc.polyfrost.javadesigntokens.objects.Typography;
+import cc.polyfrost.javadesigntokens.utils.JsonHelper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -10,13 +10,13 @@ import com.google.gson.stream.JsonReader;
 
 import java.awt.*;
 import java.io.Reader;
-import java.util.List;
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DesignToken {
+    private static final int maxReferenceDepth = 25;
     private final HashMap<String, Object> values = new HashMap<>();
-    private ConcurrentHashMap<String, String> unresolvedReferences = new ConcurrentHashMap<>();
+    private boolean resolved = false;
 
     /**
      * Parse a json object to a design token
@@ -24,12 +24,15 @@ public class DesignToken {
      * @param objects The json objects, first object has the highest priority for duplicate tokens
      */
     public DesignToken(JsonObject... objects) {
-        List<JsonObject> objectList = Arrays.asList(objects);
-        Collections.reverse(objectList);
-        for (JsonObject object : objectList) {
-            parsePart(object, Type.UNKNOWN, "");
+        int depth = 0;
+        while (!resolved && depth < maxReferenceDepth) {
+            resolved = true;
+            for (JsonObject object : objects) {
+                parsePart(object, Type.UNKNOWN, "");
+            }
+            depth++;
         }
-        resolveReferences();
+        if (!resolved) System.err.println("(JDT) ERROR: Unable to resolve all references!");
     }
 
     /**
@@ -68,13 +71,18 @@ public class DesignToken {
                 break;
             }
         }
-        if (object.has("$value")) {
-            JsonElement value = object.get("$value");
-            if (value.isJsonPrimitive() && value.getAsString().startsWith("{") && value.getAsString().endsWith("}")) {
-                String reference = value.getAsString();
-                unresolvedReferences.put(path, reference.substring(1, reference.length() - 1));
+        if (object.has("$value") && !values.containsKey(path)) {
+            JsonElement element = object.get("$value");
+            if (element.isJsonPrimitive() && element.getAsString().startsWith("{") && element.getAsString().endsWith("}")) {
+                String reference = element.getAsString();
+                reference = reference.substring(1, reference.length() - 1);
+                if (values.containsKey(reference)) values.put(path, values.get(reference));
             } else {
-                values.put(path, getValue(value, type));
+                try {
+                    values.put(path, getValue(element, type));
+                } catch (UnresolvedReferenceException e) {
+                    resolved = false;
+                }
             }
         }
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
@@ -86,62 +94,9 @@ public class DesignToken {
         }
     }
 
-    private Object getValue(JsonElement jsonElement, Type type) {
-        switch (type) {
-            case COLOR:
-                return hexToRGB(jsonElement.getAsString());
-            case FONT_FAMILY:
-                if (jsonElement.isJsonPrimitive()) return new String[]{jsonElement.getAsString()};
-                JsonArray array = jsonElement.getAsJsonArray();
-                String[] fonts = new String[array.size()];
-                for (int i = 0; i < array.size(); i++) fonts[i] = array.get(i).getAsString();
-                return fonts;
-            case FONT_WEIGHT:
-                try {
-                    return jsonElement.getAsInt();
-                } catch (Exception ignored) {
-                }
-                return FontWeightHelper.getFontWeightNumber(jsonElement.getAsString());
-            case DIMENSION:
-                String value = jsonElement.getAsString();
-                if (value.endsWith("rem")) {
-                    return DimensionHelper.remToPx(Float.parseFloat(value.replace("rem", "")));
-                }
-                return Float.parseFloat(value.replace("px", ""));
-            case DURATION:
-                return Float.parseFloat(jsonElement.getAsString().replace("ms", ""));
-            case CUBIC_BEZIER:
-                JsonArray jsonArray = jsonElement.getAsJsonArray();
-                return new float[]{
-                        jsonArray.get(0).getAsFloat(), jsonArray.get(1).getAsFloat(),
-                        jsonArray.get(2).getAsFloat(), jsonArray.get(3).getAsFloat()
-                };
-            default:
-                return jsonElement;
-        }
-    }
-
-    private void resolveReferences() {
-        for (String path : unresolvedReferences.keySet()) {
-            String reference = unresolvedReferences.get(path);
-            resolveReference(path, reference);
-        }
-        unresolvedReferences = null;
-    }
-
-    private void resolveReference(String path, String reference) {
-        if (unresolvedReferences.containsKey(reference)) {
-            resolveReference(reference, unresolvedReferences.get(reference));
-        }
-        if (!has(reference)) return;
-        values.put(path, get(reference));
-    }
-
-    private Color hexToRGB(String colorStr) {
-        return new Color(
-                Integer.valueOf(colorStr.substring(1, 3), 16),
-                Integer.valueOf(colorStr.substring(3, 5), 16),
-                Integer.valueOf(colorStr.substring(5, 7), 16));
+    private Object getValue(JsonElement element, Type type) {
+        if (type.parser == null) return element;
+        else return type.parser.parse(element, values);
     }
 
     @Override
@@ -163,6 +118,51 @@ public class DesignToken {
      */
     public Object get(String reference) {
         return values.get(reference);
+    }
+
+    /**
+     * @param reference The reference to the string token
+     * @return The string
+     * @throws ClassCastException If the object is not a string
+     */
+    public String getString(String reference) {
+        return (String) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the number token
+     * @return The float
+     * @throws ClassCastException If the object is not a float
+     */
+    public float getFloat(String reference) {
+        return (float) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the boolean token
+     * @return The boolean
+     * @throws ClassCastException If the object is not a boolean
+     */
+    public boolean getBoolean(String reference) {
+        return (boolean) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the object token
+     * @return The object
+     * @throws ClassCastException If the object is not a (json) object
+     */
+    public JsonObject getObject(String reference) {
+        return (JsonObject) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the array token
+     * @return The array
+     * @throws ClassCastException If the object is not a (json) array
+     */
+    public JsonArray getArray(String reference) {
+        return (JsonArray) get(reference);
     }
 
     /**
@@ -217,5 +217,14 @@ public class DesignToken {
      */
     public float[] getCubicBezier(String reference) {
         return (float[]) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the typography object
+     * @return The typography object
+     * @throws ClassCastException If the object is not a typography object
+     */
+    public Typography getTypography(String reference) {
+        return (Typography) get(reference);
     }
 }

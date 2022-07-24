@@ -26,7 +26,7 @@ public class TypographyParser extends Parser<Typography> {
         } else {
             letterSpacing = DimensionParser.INSTANCE.parse(object.get("letterSpacing"), values);
         }
-        float lineHeight = Float.parseFloat(StringParser.INSTANCE.parse(object.get("lineHeight"), values));
+        float lineHeight = Float.parseFloat(StringParser.INSTANCE.parse(object.get("lineHeight"), values)) * fontSize;
         return new Typography(fontFamily, fontSize, fontWeight, letterSpacing, lineHeight);
     }
 }

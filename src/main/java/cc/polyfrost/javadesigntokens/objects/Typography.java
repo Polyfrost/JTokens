@@ -15,22 +15,37 @@ public class Typography {
         this.lineHeight = lineHeight;
     }
 
+    /**
+     * @return The font family
+     */
     public String[] getFontFamily() {
         return fontFamily;
     }
 
+    /**
+     * @return The font size in pixels
+     */
     public float getFontSize() {
         return fontSize;
     }
 
+    /**
+     * @return The font weight
+     */
     public int getFontWeight() {
         return fontWeight;
     }
 
+    /**
+     * @return The letter spacing in pixels
+     */
     public float getLetterSpacing() {
         return letterSpacing;
     }
 
+    /**
+     * @return The line height in pixels
+     */
     public float getLineHeight() {
         return lineHeight;
     }

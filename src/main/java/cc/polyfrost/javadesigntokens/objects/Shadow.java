@@ -17,22 +17,37 @@ public class Shadow {
         this.spread = spread;
     }
 
+    /**
+     * @return The color
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * @return The X offset in pixels
+     */
     public float getOffsetX() {
         return offsetX;
     }
 
+    /**
+     * @return The Y offset in pixels
+     */
     public float getOffsetY() {
         return offsetY;
     }
 
+    /**
+     * @return The blur radius in pixels
+     */
     public float getBlur() {
         return blur;
     }
 
+    /**
+     * @return The spread in pixels
+     */
     public float getSpread() {
         return spread;
     }

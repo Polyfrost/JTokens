@@ -108,7 +108,7 @@ public class ParsingTest {
             assert designToken.getTypography("font.main").getFontSize() == 42;
             assert designToken.getTypography("font.main").getFontWeight() == 700;
             assert designToken.getTypography("font.main").getLetterSpacing() == 4.2;
-            assert designToken.getTypography("font.main").getLineHeight() == 1.2;
+            assert designToken.getTypography("font.main").getLineHeight() == 50.4;
             assert designToken.getTypography("font.main").equals(designToken.getTypography("font.main-clone"));
             assert designToken.getTypography("font.secondary").getFontFamily()[0].equals(designToken.getFontFamily("Primary font")[0]);
             assert designToken.getTypography("font.secondary").getFontWeight() == designToken.getFontWeight("font-weight-thick");

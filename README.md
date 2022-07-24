@@ -1,6 +1,6 @@
 # Java Design Tokens
 
-This is a general purpose library to parse [JSON design token](https://tr.designtokens.org/).
+This is a general purpose library to parse [JSON design tokens](https://tr.designtokens.org/).
 
 ## Checklist
 

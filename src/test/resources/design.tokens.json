@@ -2,7 +2,10 @@
   "colors": {
     "$type": "color",
     "white": {
-      "$value": "#ffffff"
+      "$value": "#ffffff",
+      "$extensions": {
+        "org.example.tool-a": 42
+      }
     }
   },
   "button": {
@@ -103,8 +106,8 @@
         "lineHeight": "2"
       }
     },
-    "main-clone" : {
-      "$value" : "{font.main}"
+    "main-clone": {
+      "$value": "{font.main}"
     },
     "secondary": {
       "$type": "typography",
@@ -132,7 +135,12 @@
     "$value": {
       "duration": "200ms",
       "delay": "0ms",
-      "timingFunction": [0.5, 0, 1, 1]
+      "timingFunction": [
+        0.5,
+        0,
+        1,
+        1
+      ]
     }
   },
   "gradient": {

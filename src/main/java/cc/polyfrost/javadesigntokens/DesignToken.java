@@ -18,6 +18,7 @@ import java.util.Map;
 public class DesignToken {
     private static final int maxReferenceDepth = 25;
     private final HashMap<String, Object> values = new HashMap<>();
+    private final HashMap<String, JsonElement> extensions = new HashMap<>();
     private boolean resolved = false;
 
     /**
@@ -88,6 +89,8 @@ public class DesignToken {
                 }
             }
         }
+        if (object.has("$extensions") && !extensions.containsKey(path))
+            extensions.put(path, object.get("$extensions"));
         for (Map.Entry<String, JsonElement> entry : object.entrySet()) {
             String name = entry.getKey();
             JsonElement value = entry.getValue();
@@ -256,5 +259,21 @@ public class DesignToken {
      */
     public HashMap<Float, Color> getGradient(String reference) {
         return (HashMap<Float, Color>) get(reference);
+    }
+
+    /**
+     * @param reference The reference to an extension
+     * @return If the extension exists
+     */
+    public boolean hasExtension(String reference) {
+        return extensions.containsKey(reference);
+    }
+
+    /**
+     * @param reference The reference to an extension
+     * @return The extension
+     */
+    public JsonElement getExtension(String reference) {
+        return extensions.get(reference);
     }
 }

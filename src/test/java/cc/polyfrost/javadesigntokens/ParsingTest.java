@@ -146,4 +146,12 @@ public class ParsingTest {
             assert designToken.getGradient("gradient").get(1f).equals(new Color(255, 0, 0));
         }
     }
+
+    @Test
+    public void extensionTest() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader);
+            assert designToken.getExtension("colors.white").getAsJsonObject().get("org.example.tool-a").getAsInt() == 42;
+        }
+    }
 }

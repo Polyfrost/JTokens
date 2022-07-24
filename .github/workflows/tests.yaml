@@ -31,11 +31,8 @@ jobs:
       - name: Chmod Gradle
         run: chmod +x ./gradlew
 
-      - name: Build
-        run: ./gradlew build --no-daemon
-
-      - name: Tests
-        run: ./gradlew test
+      - name: Build and run tests
+        run: ./gradlew build test --no-daemon
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v2

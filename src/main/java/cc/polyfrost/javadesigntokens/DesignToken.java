@@ -2,6 +2,7 @@ package cc.polyfrost.javadesigntokens;
 
 import cc.polyfrost.javadesigntokens.exceptions.UnresolvedReferenceException;
 import cc.polyfrost.javadesigntokens.objects.Shadow;
+import cc.polyfrost.javadesigntokens.objects.Transition;
 import cc.polyfrost.javadesigntokens.objects.Typography;
 import cc.polyfrost.javadesigntokens.utils.JsonHelper;
 import com.google.gson.JsonArray;
@@ -78,6 +79,7 @@ public class DesignToken {
                 String reference = element.getAsString();
                 reference = reference.substring(1, reference.length() - 1);
                 if (values.containsKey(reference)) values.put(path, values.get(reference));
+                else resolved = false;
             } else {
                 try {
                     values.put(path, getValue(element, type));
@@ -236,5 +238,14 @@ public class DesignToken {
      */
     public Shadow getShadow(String reference) {
         return (Shadow) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the transition object
+     * @return The transition object
+     * @throws ClassCastException If the object is not a transition object
+     */
+    public Transition getTransition(String reference) {
+        return (Transition) get(reference);
     }
 }

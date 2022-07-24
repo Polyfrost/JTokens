@@ -1,4 +1,4 @@
-package cc.polyfrost.javadesigntokens.parsers.compositetypes;
+package cc.polyfrost.javadesigntokens.parsers.composite;
 
 import cc.polyfrost.javadesigntokens.parsers.Parser;
 import cc.polyfrost.javadesigntokens.parsers.json.StringParser;

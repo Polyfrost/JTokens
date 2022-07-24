@@ -107,8 +107,8 @@ public class ParsingTest {
             assert designToken.getTypography("font.main").getFontFamily()[0].equals("Roboto");
             assert designToken.getTypography("font.main").getFontSize() == 42;
             assert designToken.getTypography("font.main").getFontWeight() == 700;
-            assert designToken.getTypography("font.main").getLetterSpacing() == 4.2;
-            assert designToken.getTypography("font.main").getLineHeight() == 50.4;
+            assert designToken.getTypography("font.main").getLetterSpacing() == 42;
+            assert designToken.getTypography("font.main").getLineHeight() == 84;
             assert designToken.getTypography("font.main").equals(designToken.getTypography("font.main-clone"));
             assert designToken.getTypography("font.secondary").getFontFamily()[0].equals(designToken.getFontFamily("Primary font")[0]);
             assert designToken.getTypography("font.secondary").getFontWeight() == designToken.getFontWeight("font-weight-thick");
@@ -125,6 +125,16 @@ public class ParsingTest {
             assert designToken.getShadow("shadow").getOffsetY() == 8;
             assert designToken.getShadow("shadow").getBlur() == 24;
             assert designToken.getShadow("shadow").getSpread() == 0;
+        }
+    }
+
+    @Test
+    public void transitionTest() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader);
+            assert designToken.getTransition("transition").getDuration() == 200;
+            assert designToken.getTransition("transition").getDelay() == 0;
+            assert Arrays.equals(designToken.getTransition("transition").getTimingFunction(), new float[]{0.5f, 0, 1, 1});
         }
     }
 }

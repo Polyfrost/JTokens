@@ -18,7 +18,7 @@ This is a general purpose library to parse [JSON design tokens](https://tr.desig
 - [ ] [Composite types](https://tr.designtokens.org/format/#composite-types) (NOT FINALIZED IN STANDARD)
   - [ ] Stroke style
   - [ ] Border
-  - [ ] Transition
+  - [X] Transition
   - [X] Shadow
   - [ ] Gradient
   - [X] Typography

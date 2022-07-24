@@ -25,6 +25,7 @@ public enum Type {
     TRANSITION("transition", TransitionParser.INSTANCE),
     GRADIENT("gradient", GradientParser.INSTANCE),
     STROKE_STYLE("strokeStyle", StrokeStyleParser.INSTANCE),
+    BORDER("border", BorderParser.INSTANCE),
     //internal
     UNKNOWN("UNKNOWN", null);
 

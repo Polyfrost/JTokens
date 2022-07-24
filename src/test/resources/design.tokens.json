@@ -173,5 +173,23 @@
   "dash-length": {
     "$type": "dimension",
     "$value": "10px"
+  },
+  "border": {
+    "1": {
+      "$type": "border",
+      "$value": {
+        "color": "{colors.white}",
+        "width": "3px",
+        "style": "solid"
+      }
+    },
+    "2": {
+      "$type": "border",
+      "$value": {
+        "color": "{colors.white}",
+        "width": "1px",
+        "style": "{custom-dashes}"
+      }
+    }
   }
 }

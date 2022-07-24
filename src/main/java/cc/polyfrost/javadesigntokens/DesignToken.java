@@ -1,10 +1,7 @@
 package cc.polyfrost.javadesigntokens;
 
 import cc.polyfrost.javadesigntokens.exceptions.UnresolvedReferenceException;
-import cc.polyfrost.javadesigntokens.objects.Shadow;
-import cc.polyfrost.javadesigntokens.objects.StrokeStyle;
-import cc.polyfrost.javadesigntokens.objects.Transition;
-import cc.polyfrost.javadesigntokens.objects.Typography;
+import cc.polyfrost.javadesigntokens.objects.*;
 import cc.polyfrost.javadesigntokens.utils.JsonHelper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -269,6 +266,15 @@ public class DesignToken {
      */
     public StrokeStyle getStrokeStyle(String reference) {
         return (StrokeStyle) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the border
+     * @return The border object
+     * @throws ClassCastException If the object is not a border
+     */
+    public Border getBorder(String reference) {
+        return (Border) get(reference);
     }
 
     /**

@@ -167,4 +167,17 @@ public class ParsingTest {
             assert designToken.getStrokeStyle("custom-dashes").getLineCap().equals(StrokeStyle.LineCap.BUTT);
         }
     }
+
+    @Test
+    public void borderTest() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader);
+            assert designToken.getBorder("border.1").getStrokeStyle().getStyle().equals(StrokeStyle.Style.SOLID);
+            assert designToken.getBorder("border.1").getWidth() == 3;
+            assert designToken.getBorder("border.1").getColor().equals(designToken.getColor("colors.white"));
+            assert designToken.getBorder("border.2").getStrokeStyle().equals(designToken.getStrokeStyle("custom-dashes"));
+            assert designToken.getBorder("border.2").getWidth() == 1;
+            assert designToken.getBorder("border.2").getColor().equals(designToken.getColor("colors.white"));
+        }
+    }
 }

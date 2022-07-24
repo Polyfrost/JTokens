@@ -1,6 +1,7 @@
 package cc.polyfrost.javadesigntokens;
 
 import cc.polyfrost.javadesigntokens.exceptions.UnresolvedReferenceException;
+import cc.polyfrost.javadesigntokens.objects.Shadow;
 import cc.polyfrost.javadesigntokens.objects.Typography;
 import cc.polyfrost.javadesigntokens.utils.JsonHelper;
 import com.google.gson.JsonArray;
@@ -226,5 +227,14 @@ public class DesignToken {
      */
     public Typography getTypography(String reference) {
         return (Typography) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the shadow object
+     * @return The shadow object
+     * @throws ClassCastException If the object is not a shadow object
+     */
+    public Shadow getShadow(String reference) {
+        return (Shadow) get(reference);
     }
 }

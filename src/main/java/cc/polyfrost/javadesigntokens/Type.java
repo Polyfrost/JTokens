@@ -1,5 +1,6 @@
 package cc.polyfrost.javadesigntokens;
 
+import cc.polyfrost.javadesigntokens.parsers.compositetypes.ShadowParser;
 import cc.polyfrost.javadesigntokens.parsers.compositetypes.TypographyParser;
 import cc.polyfrost.javadesigntokens.parsers.json.*;
 import cc.polyfrost.javadesigntokens.parsers.Parser;
@@ -21,6 +22,7 @@ public enum Type {
     CUBIC_BEZIER("cubicBezier", CubicBezierParser.INSTANCE),
     // composite objects
     TYPOGRAPHY("typography", TypographyParser.INSTANCE),
+    SHADOW("shadow", ShadowParser.INSTANCE),
     //internal
     UNKNOWN("UNKNOWN_IF_THIS_MATCHES_WEIRD_SHIT_WILL_HAPPEN", null);
 

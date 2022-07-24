@@ -19,6 +19,6 @@ This is a general purpose library to parse [JSON design token](https://tr.design
   - [ ] Stroke style
   - [ ] Border
   - [ ] Transition
-  - [ ] Shadow
+  - [X] Shadow
   - [ ] Gradient
   - [X] Typography

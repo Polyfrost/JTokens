@@ -115,4 +115,16 @@ public class ParsingTest {
             assert designToken.getTypography("font.secondary").getLetterSpacing() == designToken.getDimension("px");
         }
     }
+
+    @Test
+    public void shadowTest() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader);
+            assert designToken.getShadow("shadow").getColor().equals(new Color(0, 0, 0));
+            assert designToken.getShadow("shadow").getOffsetX() == 8;
+            assert designToken.getShadow("shadow").getOffsetY() == 8;
+            assert designToken.getShadow("shadow").getBlur() == 24;
+            assert designToken.getShadow("shadow").getSpread() == 0;
+        }
+    }
 }

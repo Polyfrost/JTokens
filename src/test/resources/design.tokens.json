@@ -116,5 +116,15 @@
         "lineHeight": "1.5"
       }
     }
+  },
+  "shadow": {
+    "$type": "shadow",
+    "$value": {
+      "color": "#00000000",
+      "offsetX": "0.5rem",
+      "offsetY": "0.5rem",
+      "blur": "1.5rem",
+      "spread": "0rem"
+    }
   }
 }

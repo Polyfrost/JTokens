@@ -14,7 +14,7 @@ This is a general purpose library to parse [JSON design tokens](https://tr.desig
     - [X] Duration
     - [X] Cubic Bezier
 - [X] Allow loading of multiple files and references to the other file in the same design token instance
-- [ ] [Extensions](https://tr.designtokens.org/format/#extensions)
+- [X] [Extensions](https://tr.designtokens.org/format/#extensions)
 - [ ] [Composite types](https://tr.designtokens.org/format/#composite-types) (NOT FINALIZED IN STANDARD)
   - [ ] Stroke style
   - [ ] Border

@@ -20,5 +20,5 @@ This is a general purpose library to parse [JSON design tokens](https://tr.desig
   - [ ] Border
   - [X] Transition
   - [X] Shadow
-  - [ ] Gradient
+  - [X] Gradient
   - [X] Typography

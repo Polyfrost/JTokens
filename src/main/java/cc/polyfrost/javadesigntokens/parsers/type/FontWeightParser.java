@@ -56,7 +56,11 @@ public class FontWeightParser extends Parser<Integer> {
     @Override
     protected Integer parseValue(JsonElement element, HashMap<String, Object> values) {
         JsonPrimitive primitive = element.getAsJsonPrimitive();
-        if (primitive.isNumber()) return primitive.getAsInt();
+        if (primitive.isNumber()) {
+            int value = primitive.getAsInt();
+            if (value < 1 || value > 1000) throw new IllegalArgumentException("Font weight must be in range [1, 1000]!");
+            return value;
+        }
         return getFontWeightNumber(primitive.getAsString());
     }
 }

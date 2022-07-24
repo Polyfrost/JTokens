@@ -137,4 +137,13 @@ public class ParsingTest {
             assert Arrays.equals(designToken.getTransition("transition").getTimingFunction(), new float[]{0.5f, 0, 1, 1});
         }
     }
+
+    @Test
+    public void gradientTest() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader);
+            assert designToken.getGradient("gradient").get(0f).equals(new Color(0, 0, 255));
+            assert designToken.getGradient("gradient").get(1f).equals(new Color(255, 0, 0));
+        }
+    }
 }

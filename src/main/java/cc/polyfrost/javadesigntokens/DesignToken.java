@@ -248,4 +248,13 @@ public class DesignToken {
     public Transition getTransition(String reference) {
         return (Transition) get(reference);
     }
+
+    /**
+     * @param reference The reference to the gradient
+     * @return The gradient, the keys are the positions and the values are the colors
+     * @throws ClassCastException If the object is not a gradient
+     */
+    public HashMap<Float, Color> getGradient(String reference) {
+        return (HashMap<Float, Color>) get(reference);
+    }
 }

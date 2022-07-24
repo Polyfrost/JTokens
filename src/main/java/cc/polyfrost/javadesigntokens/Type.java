@@ -1,8 +1,6 @@
 package cc.polyfrost.javadesigntokens;
 
-import cc.polyfrost.javadesigntokens.parsers.composite.ShadowParser;
-import cc.polyfrost.javadesigntokens.parsers.composite.TransitionParser;
-import cc.polyfrost.javadesigntokens.parsers.composite.TypographyParser;
+import cc.polyfrost.javadesigntokens.parsers.composite.*;
 import cc.polyfrost.javadesigntokens.parsers.json.*;
 import cc.polyfrost.javadesigntokens.parsers.Parser;
 import cc.polyfrost.javadesigntokens.parsers.type.*;
@@ -25,6 +23,7 @@ public enum Type {
     TYPOGRAPHY("typography", TypographyParser.INSTANCE),
     SHADOW("shadow", ShadowParser.INSTANCE),
     TRANSITION("transition", TransitionParser.INSTANCE),
+    GRADIENT("gradient", GradientParser.INSTANCE),
     //internal
     UNKNOWN("UNKNOWN_IF_THIS_MATCHES_WEIRD_SHIT_WILL_HAPPEN", null);
 

@@ -2,6 +2,7 @@ package cc.polyfrost.javadesigntokens;
 
 import cc.polyfrost.javadesigntokens.exceptions.UnresolvedReferenceException;
 import cc.polyfrost.javadesigntokens.objects.Shadow;
+import cc.polyfrost.javadesigntokens.objects.StrokeStyle;
 import cc.polyfrost.javadesigntokens.objects.Transition;
 import cc.polyfrost.javadesigntokens.objects.Typography;
 import cc.polyfrost.javadesigntokens.utils.JsonHelper;
@@ -259,6 +260,15 @@ public class DesignToken {
      */
     public HashMap<Float, Color> getGradient(String reference) {
         return (HashMap<Float, Color>) get(reference);
+    }
+
+    /**
+     * @param reference The reference to the stroke style
+     * @return The stroke style object
+     * @throws ClassCastException If the object is not a stroke style
+     */
+    public StrokeStyle getStrokeStyle(String reference) {
+        return (StrokeStyle) get(reference);
     }
 
     /**

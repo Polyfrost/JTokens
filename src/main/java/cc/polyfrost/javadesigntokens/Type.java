@@ -12,20 +12,21 @@ public enum Type {
     BOOLEAN("boolean", BooleanParser.INSTANCE),
     OBJECT("object", ObjectParser.INSTANCE),
     ARRAY("array", ArrayParser.INSTANCE),
-    // normal objects
+    // normal types
     COLOR("color", ColorParser.INSTANCE),
     DIMENSION("dimension", DimensionParser.INSTANCE),
     FONT_FAMILY("fontFamily", FontFamilyParser.INSTANCE),
     FONT_WEIGHT("fontWeight", FontWeightParser.INSTANCE),
     DURATION("duration", DurationParser.INSTANCE),
     CUBIC_BEZIER("cubicBezier", CubicBezierParser.INSTANCE),
-    // composite objects
+    // composite types
     TYPOGRAPHY("typography", TypographyParser.INSTANCE),
     SHADOW("shadow", ShadowParser.INSTANCE),
     TRANSITION("transition", TransitionParser.INSTANCE),
     GRADIENT("gradient", GradientParser.INSTANCE),
+    STROKE_STYLE("strokeStyle", StrokeStyleParser.INSTANCE),
     //internal
-    UNKNOWN("UNKNOWN_IF_THIS_MATCHES_WEIRD_SHIT_WILL_HAPPEN", null);
+    UNKNOWN("UNKNOWN", null);
 
     public final String name;
 

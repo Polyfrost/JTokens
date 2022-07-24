@@ -1,5 +1,6 @@
 package cc.polyfrost.javadesigntokens;
 
+import cc.polyfrost.javadesigntokens.objects.StrokeStyle;
 import cc.polyfrost.javadesigntokens.parsers.type.DimensionParser;
 import org.junit.jupiter.api.Test;
 
@@ -152,6 +153,18 @@ public class ParsingTest {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
             DesignToken designToken = new DesignToken(reader);
             assert designToken.getExtension("colors.white").getAsJsonObject().get("org.example.tool-a").getAsInt() == 42;
+        }
+    }
+
+    @Test
+    public void strokeStyleTest() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(reader);
+            assert designToken.getStrokeStyle("dashed").getStyle().equals(StrokeStyle.Style.DASHED);
+            assert designToken.getStrokeStyle("custom-dashes").getStyle().equals(StrokeStyle.Style.CUSTOM);
+            assert designToken.getStrokeStyle("custom-dashes").getDashArray()[0] == designToken.getDimension("dash-length");
+            assert designToken.getStrokeStyle("custom-dashes").getDashArray()[1] == 4;
+            assert designToken.getStrokeStyle("custom-dashes").getLineCap().equals(StrokeStyle.LineCap.BUTT);
         }
     }
 }

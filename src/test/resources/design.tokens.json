@@ -155,5 +155,23 @@
         "position": 1
       }
     ]
+  },
+  "dashed": {
+    "$type": "strokeStyle",
+    "$value": "dashed"
+  },
+  "custom-dashes": {
+    "$type": "strokeStyle",
+    "$value": {
+      "dashArray": [
+        "{dash-length}",
+        "0.25rem"
+      ],
+      "lineCap": "butt"
+    }
+  },
+  "dash-length": {
+    "$type": "dimension",
+    "$value": "10px"
   }
 }

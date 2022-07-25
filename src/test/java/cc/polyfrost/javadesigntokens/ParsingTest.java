@@ -1,5 +1,6 @@
 package cc.polyfrost.javadesigntokens;
 
+import cc.polyfrost.javadesigntokens.objects.Dimension;
 import cc.polyfrost.javadesigntokens.objects.StrokeStyle;
 import cc.polyfrost.javadesigntokens.parsers.type.DimensionParser;
 import org.junit.jupiter.api.Test;
@@ -66,9 +67,11 @@ public class ParsingTest {
     public void testDimension() throws IOException {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
             DesignToken designToken = new DesignToken(reader);
-            assert DimensionParser.INSTANCE.remToPx(0.25f) == 4;
-            assert designToken.getDimension("rem") == DimensionParser.INSTANCE.remToPx(0.25f);
-            assert designToken.getDimension("px") == 10;
+            assert designToken.getDimension("rem").getUnit().equals(Dimension.Unit.REM);
+            assert designToken.getDimension("rem").getRem() == 0.25;
+            assert designToken.getDimension("rem").getPx() == 4;
+            assert designToken.getDimension("px").getUnit().equals(Dimension.Unit.PX);
+            assert designToken.getDimension("px").getPx() == 10;
         }
     }
 
@@ -106,10 +109,10 @@ public class ParsingTest {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
             DesignToken designToken = new DesignToken(reader);
             assert designToken.getTypography("font.main").getFontFamily()[0].equals("Roboto");
-            assert designToken.getTypography("font.main").getFontSize() == 42;
+            assert designToken.getTypography("font.main").getFontSize() .getPx()== 42;
             assert designToken.getTypography("font.main").getFontWeight() == 700;
-            assert designToken.getTypography("font.main").getLetterSpacing() == 42;
-            assert designToken.getTypography("font.main").getLineHeight() == 84;
+            assert designToken.getTypography("font.main").getLetterSpacing().getPx() == 42;
+            assert designToken.getTypography("font.main").getLineHeight() == 2;
             assert designToken.getTypography("font.main").equals(designToken.getTypography("font.main-clone"));
             assert designToken.getTypography("font.secondary").getFontFamily()[0].equals(designToken.getFontFamily("Primary font")[0]);
             assert designToken.getTypography("font.secondary").getFontWeight() == designToken.getFontWeight("font-weight-thick");
@@ -122,10 +125,10 @@ public class ParsingTest {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
             DesignToken designToken = new DesignToken(reader);
             assert designToken.getShadow("shadow").getColor().equals(new Color(0, 0, 0));
-            assert designToken.getShadow("shadow").getOffsetX() == 8;
-            assert designToken.getShadow("shadow").getOffsetY() == 8;
-            assert designToken.getShadow("shadow").getBlur() == 24;
-            assert designToken.getShadow("shadow").getSpread() == 0;
+            assert designToken.getShadow("shadow").getOffsetX().getPx() == 8;
+            assert designToken.getShadow("shadow").getOffsetY().getPx() == 8;
+            assert designToken.getShadow("shadow").getBlur().getPx() == 24;
+            assert designToken.getShadow("shadow").getSpread().getPx() == 0;
         }
     }
 
@@ -163,7 +166,7 @@ public class ParsingTest {
             assert designToken.getStrokeStyle("dashed").getStyle().equals(StrokeStyle.Style.DASHED);
             assert designToken.getStrokeStyle("custom-dashes").getStyle().equals(StrokeStyle.Style.CUSTOM);
             assert designToken.getStrokeStyle("custom-dashes").getDashArray()[0] == designToken.getDimension("dash-length");
-            assert designToken.getStrokeStyle("custom-dashes").getDashArray()[1] == 4;
+            assert designToken.getStrokeStyle("custom-dashes").getDashArray()[1].getPx() == 4;
             assert designToken.getStrokeStyle("custom-dashes").getLineCap().equals(StrokeStyle.LineCap.BUTT);
         }
     }
@@ -173,10 +176,10 @@ public class ParsingTest {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
             DesignToken designToken = new DesignToken(reader);
             assert designToken.getBorder("border.1").getStrokeStyle().getStyle().equals(StrokeStyle.Style.SOLID);
-            assert designToken.getBorder("border.1").getWidth() == 3;
+            assert designToken.getBorder("border.1").getWidth().getPx() == 3;
             assert designToken.getBorder("border.1").getColor().equals(designToken.getColor("colors.white"));
             assert designToken.getBorder("border.2").getStrokeStyle().equals(designToken.getStrokeStyle("custom-dashes"));
-            assert designToken.getBorder("border.2").getWidth() == 1;
+            assert designToken.getBorder("border.2").getWidth().getPx() == 1;
             assert designToken.getBorder("border.2").getColor().equals(designToken.getColor("colors.white"));
         }
     }

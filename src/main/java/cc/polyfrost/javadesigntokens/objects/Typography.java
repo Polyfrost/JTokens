@@ -2,12 +2,12 @@ package cc.polyfrost.javadesigntokens.objects;
 
 public class Typography {
     private final String[] fontFamily;
-    private final float fontSize;
+    private final Dimension fontSize;
     private final int fontWeight;
-    private final float letterSpacing;
+    private final Dimension letterSpacing;
     private final float lineHeight;
 
-    public Typography(String[] fontFamily, float fontSize, int fontWeight, float letterSpacing, float lineHeight) {
+    public Typography(String[] fontFamily, Dimension fontSize, int fontWeight, Dimension letterSpacing, float lineHeight) {
         this.fontFamily = fontFamily;
         this.fontSize = fontSize;
         this.fontWeight = fontWeight;
@@ -25,7 +25,7 @@ public class Typography {
     /**
      * @return The font size in pixels
      */
-    public float getFontSize() {
+    public Dimension getFontSize() {
         return fontSize;
     }
 
@@ -39,12 +39,12 @@ public class Typography {
     /**
      * @return The letter spacing in pixels
      */
-    public float getLetterSpacing() {
+    public Dimension getLetterSpacing() {
         return letterSpacing;
     }
 
     /**
-     * @return The line height in pixels
+     * @return The line height in em
      */
     public float getLineHeight() {
         return lineHeight;

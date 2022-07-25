@@ -1,6 +1,7 @@
 package cc.polyfrost.javadesigntokens.parsers.composite;
 
 import cc.polyfrost.javadesigntokens.objects.Border;
+import cc.polyfrost.javadesigntokens.objects.Dimension;
 import cc.polyfrost.javadesigntokens.objects.StrokeStyle;
 import cc.polyfrost.javadesigntokens.parsers.Parser;
 import cc.polyfrost.javadesigntokens.parsers.type.ColorParser;
@@ -18,7 +19,7 @@ public class BorderParser extends Parser<Border> {
     protected Border parseValue(JsonElement element, HashMap<String, Object> values) {
         JsonObject object = element.getAsJsonObject();
         Color color = ColorParser.INSTANCE.parse(object.get("color"), values);
-        float width = DimensionParser.INSTANCE.parse(object.get("width"), values);
+        Dimension width = DimensionParser.INSTANCE.parse(object.get("width"), values);
         StrokeStyle strokeStyle = StrokeStyleParser.INSTANCE.parse(object.get("style"), values);
         return new Border(color, width, strokeStyle);
     }

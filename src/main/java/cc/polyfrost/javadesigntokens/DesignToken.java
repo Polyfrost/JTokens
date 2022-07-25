@@ -2,6 +2,7 @@ package cc.polyfrost.javadesigntokens;
 
 import cc.polyfrost.javadesigntokens.exceptions.UnresolvedReferenceException;
 import cc.polyfrost.javadesigntokens.objects.*;
+import cc.polyfrost.javadesigntokens.objects.Dimension;
 import cc.polyfrost.javadesigntokens.utils.JsonHelper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -201,8 +202,8 @@ public class DesignToken {
      * @return The dimension in pixels
      * @throws ClassCastException If the object is not a dimension
      */
-    public float getDimension(String reference) {
-        return (float) get(reference);
+    public Dimension getDimension(String reference) {
+        return (Dimension) get(reference);
     }
 
     /**

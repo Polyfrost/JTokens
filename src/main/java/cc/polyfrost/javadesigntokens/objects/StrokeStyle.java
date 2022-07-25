@@ -2,7 +2,7 @@ package cc.polyfrost.javadesigntokens.objects;
 
 public class StrokeStyle {
     private final Style style;
-    private final float[] dashArray;
+    private final Dimension[] dashArray;
     private final LineCap lineCap;
 
     public StrokeStyle(Style style) {
@@ -11,7 +11,7 @@ public class StrokeStyle {
         this.lineCap = null;
     }
 
-    public StrokeStyle(float[] dashArray, LineCap lineCap) {
+    public StrokeStyle(Dimension[] dashArray, LineCap lineCap) {
         this.style = Style.CUSTOM;
         this.dashArray = dashArray;
         this.lineCap = lineCap;
@@ -25,10 +25,10 @@ public class StrokeStyle {
     }
 
     /**
-     * @return Get the dash array (values are in pixels),
+     * @return Get the dash array,
      * this is null if the style isn't custom
      */
-    public float[] getDashArray() {
+    public Dimension[] getDashArray() {
         return dashArray;
     }
 

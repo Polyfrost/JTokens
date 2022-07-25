@@ -4,12 +4,12 @@ import java.awt.*;
 
 public class Shadow {
     private final Color color;
-    private final float offsetX;
-    private final float offsetY;
-    private final float blur;
-    private final float spread;
+    private final Dimension offsetX;
+    private final Dimension offsetY;
+    private final Dimension blur;
+    private final Dimension spread;
 
-    public Shadow(Color color, float offsetX, float offsetY, float blur, float spread) {
+    public Shadow(Color color, Dimension offsetX, Dimension offsetY, Dimension blur, Dimension spread) {
         this.color = color;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
@@ -25,30 +25,30 @@ public class Shadow {
     }
 
     /**
-     * @return The X offset in pixels
+     * @return The X offset
      */
-    public float getOffsetX() {
+    public Dimension getOffsetX() {
         return offsetX;
     }
 
     /**
-     * @return The Y offset in pixels
+     * @return The Y offset
      */
-    public float getOffsetY() {
+    public Dimension getOffsetY() {
         return offsetY;
     }
 
     /**
-     * @return The blur radius in pixels
+     * @return The blur radius
      */
-    public float getBlur() {
+    public Dimension getBlur() {
         return blur;
     }
 
     /**
-     * @return The spread in pixels
+     * @return The spread
      */
-    public float getSpread() {
+    public Dimension getSpread() {
         return spread;
     }
 }

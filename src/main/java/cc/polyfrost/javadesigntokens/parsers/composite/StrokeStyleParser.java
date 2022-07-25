@@ -1,5 +1,6 @@
 package cc.polyfrost.javadesigntokens.parsers.composite;
 
+import cc.polyfrost.javadesigntokens.objects.Dimension;
 import cc.polyfrost.javadesigntokens.objects.StrokeStyle;
 import cc.polyfrost.javadesigntokens.parsers.Parser;
 import cc.polyfrost.javadesigntokens.parsers.json.ArrayParser;
@@ -27,7 +28,7 @@ public class StrokeStyleParser extends Parser<StrokeStyle> {
         JsonObject object = element.getAsJsonObject();
         JsonArray array = ArrayParser.INSTANCE.parse(object.get("dashArray"), values);
         String lineCap = StringParser.INSTANCE.parse(object.get("lineCap"), values);
-        float[] dashArray = new float[array.size()];
+        Dimension[] dashArray = new Dimension[array.size()];
         for (int i = 0; i < array.size(); i++) dashArray[i] = DimensionParser.INSTANCE.parse(array.get(i), values);
         for (StrokeStyle.LineCap cap : StrokeStyle.LineCap.values()) {
             if (!cap.name.equals(lineCap)) continue;

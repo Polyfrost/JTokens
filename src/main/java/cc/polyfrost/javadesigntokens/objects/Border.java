@@ -4,10 +4,10 @@ import java.awt.*;
 
 public class Border {
     private final Color color;
-    private final float width;
+    private final Dimension width;
     private final StrokeStyle strokeStyle;
 
-    public Border(Color color, float width, StrokeStyle strokeStyle) {
+    public Border(Color color, Dimension width, StrokeStyle strokeStyle) {
         this.color = color;
         this.width = width;
         this.strokeStyle = strokeStyle;
@@ -21,9 +21,9 @@ public class Border {
     }
 
     /**
-     * @return The width of the border in pixels
+     * @return The width of the border
      */
-    public float getWidth() {
+    public Dimension getWidth() {
         return width;
     }
 

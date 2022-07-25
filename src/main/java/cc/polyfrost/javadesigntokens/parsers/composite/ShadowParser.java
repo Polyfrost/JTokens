@@ -1,5 +1,6 @@
 package cc.polyfrost.javadesigntokens.parsers.composite;
 
+import cc.polyfrost.javadesigntokens.objects.Dimension;
 import cc.polyfrost.javadesigntokens.objects.Shadow;
 import cc.polyfrost.javadesigntokens.parsers.Parser;
 import cc.polyfrost.javadesigntokens.parsers.type.ColorParser;
@@ -17,10 +18,10 @@ public class ShadowParser extends Parser<Shadow> {
     protected Shadow parseValue(JsonElement element, HashMap<String, Object> values) {
         JsonObject object = element.getAsJsonObject();
         Color color = ColorParser.INSTANCE.parse(object.get("color"), values);
-        float offsetX = DimensionParser.INSTANCE.parse(object.get("offsetX"), values);
-        float offsetY = DimensionParser.INSTANCE.parse(object.get("offsetY"), values);
-        float blur = DimensionParser.INSTANCE.parse(object.get("blur"), values);
-        float spread = DimensionParser.INSTANCE.parse(object.get("spread"), values);
+        Dimension offsetX = DimensionParser.INSTANCE.parse(object.get("offsetX"), values);
+        Dimension offsetY = DimensionParser.INSTANCE.parse(object.get("offsetY"), values);
+        Dimension blur = DimensionParser.INSTANCE.parse(object.get("blur"), values);
+        Dimension spread = DimensionParser.INSTANCE.parse(object.get("spread"), values);
         return new Shadow(color, offsetX, offsetY, blur, spread);
     }
 }

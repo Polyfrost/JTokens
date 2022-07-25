@@ -2,7 +2,10 @@ package cc.polyfrost.javadesigntokens;
 
 import cc.polyfrost.javadesigntokens.objects.Dimension;
 import cc.polyfrost.javadesigntokens.objects.StrokeStyle;
-import cc.polyfrost.javadesigntokens.parsers.type.DimensionParser;
+import cc.polyfrost.javadesigntokens.parsers.Parser;
+import cc.polyfrost.javadesigntokens.strategy.TypeResolutionStrategy;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import org.junit.jupiter.api.Test;
 
 import java.awt.*;
@@ -11,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class ParsingTest {
 
@@ -109,7 +113,7 @@ public class ParsingTest {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/design.tokens.json"), StandardCharsets.UTF_8))) {
             DesignToken designToken = new DesignToken(reader);
             assert designToken.getTypography("font.main").getFontFamily()[0].equals("Roboto");
-            assert designToken.getTypography("font.main").getFontSize() .getPx()== 42;
+            assert designToken.getTypography("font.main").getFontSize().getPx() == 42;
             assert designToken.getTypography("font.main").getFontWeight() == 700;
             assert designToken.getTypography("font.main").getLetterSpacing().getPx() == 42;
             assert designToken.getTypography("font.main").getLineHeight() == 2;
@@ -183,4 +187,23 @@ public class ParsingTest {
             assert designToken.getBorder("border.2").getColor().equals(designToken.getColor("colors.white"));
         }
     }
+
+    @Test
+    public void customTypeResolutionStrategyTest() throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream("/custom.tokens.json"), StandardCharsets.UTF_8))) {
+            DesignToken designToken = new DesignToken(customResolutionStrategy, reader);
+            assert designToken.getFloat("add") == 3;
+        }
+    }
+
+    TypeResolutionStrategy customResolutionStrategy = type -> {
+        if (!type.equals("add")) return null;
+        return new Parser<Float>() {
+            @Override
+            protected Float parseValue(JsonElement element, HashMap<String, Object> values) {
+                JsonArray array = element.getAsJsonArray();
+                return array.get(0).getAsFloat() + array.get(1).getAsFloat();
+            }
+        };
+    };
 }

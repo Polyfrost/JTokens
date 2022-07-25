@@ -3,6 +3,9 @@ package cc.polyfrost.javadesigntokens;
 import cc.polyfrost.javadesigntokens.exceptions.UnresolvedReferenceException;
 import cc.polyfrost.javadesigntokens.objects.*;
 import cc.polyfrost.javadesigntokens.objects.Dimension;
+import cc.polyfrost.javadesigntokens.parsers.Parser;
+import cc.polyfrost.javadesigntokens.strategy.DefaultTypeResolutionStrategy;
+import cc.polyfrost.javadesigntokens.strategy.TypeResolutionStrategy;
 import cc.polyfrost.javadesigntokens.utils.JsonHelper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -16,6 +19,7 @@ import java.util.Map;
 
 public class DesignToken {
     private static final int maxReferenceDepth = 25;
+    private final TypeResolutionStrategy resolutionStrategy;
     private final HashMap<String, Object> values = new HashMap<>();
     private final HashMap<String, JsonElement> extensions = new HashMap<>();
     private boolean resolved = false;
@@ -23,18 +27,39 @@ public class DesignToken {
     /**
      * Parse a json object to a design token
      *
-     * @param objects The json objects, first object has the highest priority for duplicate tokens
+     * @param resolutionStrategy A custom strategy resolution strategy, allows for creating your own custom types
+     * @param objects            The json objects, first object has the highest priority for duplicate tokens
      */
-    public DesignToken(JsonObject... objects) {
+    public DesignToken(TypeResolutionStrategy resolutionStrategy, JsonObject... objects) {
+        this.resolutionStrategy = resolutionStrategy;
         int depth = 0;
         while (!resolved && depth < maxReferenceDepth) {
             resolved = true;
             for (JsonObject object : objects) {
-                parsePart(object, Type.UNKNOWN, "");
+                parsePart(object, "UNKNOWN", "");
             }
             depth++;
         }
         if (!resolved) System.err.println("(JDT) ERROR: Unable to resolve all references!");
+    }
+
+    /**
+     * Parse a json object to a design token
+     *
+     * @param objects The json objects, first object has the highest priority for duplicate tokens
+     */
+    public DesignToken(JsonObject... objects) {
+        this(new DefaultTypeResolutionStrategy(), objects);
+    }
+
+    /**
+     * Parse a json string to a design token
+     *
+     * @param resolutionStrategy A custom strategy resolution strategy, allows for creating your own custom types
+     * @param json               The json, first object has the highest priority for duplicate tokens
+     */
+    public DesignToken(TypeResolutionStrategy resolutionStrategy, String... json) {
+        this(resolutionStrategy, JsonHelper.getJsonObjects(json));
     }
 
     /**
@@ -47,12 +72,32 @@ public class DesignToken {
     }
 
     /**
+     * Parse a json string to a design token
+     *
+     * @param resolutionStrategy A custom strategy resolution strategy, allows for creating your own custom types
+     * @param json               The json, first object has the highest priority for duplicate tokens
+     */
+    public DesignToken(TypeResolutionStrategy resolutionStrategy, Reader... json) {
+        this(resolutionStrategy, JsonHelper.getJsonObjects(json));
+    }
+
+    /**
      * Parse a reader to a design token
      *
      * @param readers The readers, first object has the highest priority for duplicate tokens
      */
     public DesignToken(Reader... readers) {
         this(JsonHelper.getJsonObjects(readers));
+    }
+
+    /**
+     * Parse a json string to a design token
+     *
+     * @param resolutionStrategy A custom strategy resolution strategy, allows for creating your own custom types
+     * @param json               The json, first object has the highest priority for duplicate tokens
+     */
+    public DesignToken(TypeResolutionStrategy resolutionStrategy, JsonReader... json) {
+        this(resolutionStrategy, JsonHelper.getJsonObjects(json));
     }
 
     /**
@@ -64,15 +109,8 @@ public class DesignToken {
         this(JsonHelper.getJsonObjects(readers));
     }
 
-    private void parsePart(JsonObject object, Type type, String path) {
-        if (object.has("$type")) {
-            String typeValue = object.get("$type").getAsString();
-            for (Type type1 : Type.values()) {
-                if (!type1.name.equals(typeValue)) continue;
-                type = type1;
-                break;
-            }
-        }
+    private void parsePart(JsonObject object, String type, String path) {
+        if (object.has("$type")) type = object.get("$type").getAsString();
         if (object.has("$value") && !values.containsKey(path)) {
             JsonElement element = object.get("$value");
             if (element.isJsonPrimitive() && element.getAsString().startsWith("{") && element.getAsString().endsWith("}")) {
@@ -99,9 +137,10 @@ public class DesignToken {
         }
     }
 
-    private Object getValue(JsonElement element, Type type) {
-        if (type.parser == null) return element;
-        else return type.parser.parse(element, values);
+    private Object getValue(JsonElement element, String type) {
+        Parser<?> parser = resolutionStrategy.getParser(type);
+        if (parser == null) return element;
+        return parser.parse(element, values);
     }
 
     @Override

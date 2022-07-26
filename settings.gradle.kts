@@ -1,2 +1,2 @@
-rootProject.name = "Java-Design-Tokens"
+rootProject.name = "JTokens"
 

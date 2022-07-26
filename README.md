@@ -1,6 +1,67 @@
-# Java Design Tokens
+# JTokens
 
-This is a general purpose library to parse [JSON design tokens](https://tr.designtokens.org/).
+JTokens is a general purpose library to parse [JSON design tokens](https://tr.designtokens.org/).
+
+## Including JTokens
+
+Groovy:
+```groovy
+repositories {
+  maven { url "https://repo.polyfrost.cc/releases" }
+}
+
+dependencies {
+  implementation("cc.polyfrost.jtokens:1.0.0") 
+}
+```
+Kotlin:
+```kotlin
+repositories {
+  maven("https://repo.polyfrost.cc/releases")
+}
+
+dependencies {
+  implementation("cc.polyfrost.jtokens:1.0.0")
+}
+```
+
+## Usage
+
+### Creating a DesignToken
+
+json can be a `JsonObject`, Json String, `Reader` or `JsonReader`
+```java
+DesignToken token = new DesignToken(json);
+```
+You can load multiple jsons like so:
+```java
+DesignToken token = new DesignToken(json1, json2);
+```
+
+### Getting values
+
+Example design token json;
+```json
+{
+  "colors": {
+    "$type": "color",
+    "white": {
+      "$value": "#ffffff"
+    }
+  }
+}
+```
+To get the white color do the following:
+```java
+Color white = token.getColor("colors.white");
+```
+
+### Custom types
+
+JTokens allows you to use custom types, to do this implement the TypeResolutionStrategy class or extend the DefaultTypeResolutionStrategy class, then use it like this:
+```java
+DesignToken token = new DesignToken(new MyTypeResolutionStrategy(), json);
+```
 
 ## Checklist
 

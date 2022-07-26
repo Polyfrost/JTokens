@@ -11,7 +11,7 @@ repositories {
 }
 
 dependencies {
-  implementation("cc.polyfrost.jtokens:1.0.0") 
+  implementation("cc.polyfrost:jtokens:1.0.0") 
 }
 ```
 Kotlin:
@@ -21,7 +21,7 @@ repositories {
 }
 
 dependencies {
-  implementation("cc.polyfrost.jtokens:1.0.0")
+  implementation("cc.polyfrost:jtokens:1.0.0")
 }
 ```
 

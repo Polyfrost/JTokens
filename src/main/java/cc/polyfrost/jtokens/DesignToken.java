@@ -40,7 +40,7 @@ public class DesignToken {
             }
             depth++;
         }
-        if (!resolved) System.err.println("(JDT) ERROR: Unable to resolve all references!");
+        if (!resolved) System.err.println("(JTokens) ERROR: Unable to resolve all references!");
     }
 
     /**

@@ -115,7 +115,7 @@ public class ParsingTest {
             assert designToken.getTypography("font.main").getFontFamily()[0].equals("Roboto");
             assert designToken.getTypography("font.main").getFontSize().getPx() == 42;
             assert designToken.getTypography("font.main").getFontWeight() == 700;
-            assert designToken.getTypography("font.main").getLetterSpacing().getPx() == 42;
+            assert designToken.getTypography("font.main").getLetterSpacing().getPx() == 1;
             assert designToken.getTypography("font.main").getLineHeight() == 2;
             assert designToken.getTypography("font.main").equals(designToken.getTypography("font.main-clone"));
             assert designToken.getTypography("font.secondary").getFontFamily()[0].equals(designToken.getFontFamily("Primary font")[0]);

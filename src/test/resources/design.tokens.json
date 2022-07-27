@@ -102,7 +102,7 @@
         "fontFamily": "Roboto",
         "fontSize": "42px",
         "fontWeight": 700,
-        "letterSpacing": "1em",
+        "letterSpacing": "1px",
         "lineHeight": "2"
       }
     },
